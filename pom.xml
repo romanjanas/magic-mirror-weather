@@ -52,7 +52,7 @@
 		<java.version>1.8</java.version>
 		<docker.project.name>${project.artifactId}-${project.version}</docker.project.name>
 		<docker.image.prefix>romanjanas</docker.image.prefix>
-		<docker.image.name>mirror-controller</docker.image.name>
+		<docker.image.name>${project.artifactId}</docker.image.name>
 	</properties>
 
 	<build>
