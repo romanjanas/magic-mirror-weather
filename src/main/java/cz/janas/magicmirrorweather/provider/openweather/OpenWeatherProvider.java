@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -41,7 +42,13 @@ public class OpenWeatherProvider implements WeatherProvider {
                 weatherData.setTemperature(openWeatherData.getMain().getTemp());
                 if (openWeatherData.getWeather() != null && openWeatherData.getWeather().size() > 0) {
                     weatherData.setConditions(openWeatherData.getWeather().get(0).getDescription());
-                    weatherData.setIconId(String.valueOf(openWeatherData.getWeather().get(0).getId()));
+                    String iconId = String.valueOf(openWeatherData.getWeather().get(0).getId());
+                    int iconStringLength = openWeatherData.getWeather().get(0).getIcon().length();
+                    if(!StringUtils.isEmpty(openWeatherData.getWeather().get(0).getIcon())) {
+                        String timeOfDay = openWeatherData.getWeather().get(0).getIcon().substring(iconStringLength - 1, iconStringLength);
+                        iconId += "-" + timeOfDay;
+                    }
+                    weatherData.setIconId(iconId);
                     weatherData.setResult(new Result(0));
                 } else {
                     weatherData.setResult(new Result(0, "temperature only"));
